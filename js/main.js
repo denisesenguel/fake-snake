@@ -40,7 +40,6 @@ class Player extends boardObject{
     
     constructor() {
         super('player', {x: 50, y: 50});
-        this.speed = 1;
     }
 }
 
