@@ -5,9 +5,10 @@ class Game {
         this.player = new Player();
         this.collectible = new Collectible();
 
-        console.log(this.collectible);
         this.addToDOM(this.player);
         this.addToDOM(this.collectible);
+
+        this.addEventListeners();
     }
 
     addToDOM(object) {
@@ -23,6 +24,26 @@ class Game {
         document.getElementById('board').appendChild(newElm);
     }
 
+    addEventListeners() {
+
+        document.addEventListener('keydown', event => {
+            
+            switch(event.key) {
+                case 'ArrowDown':
+                    this.player.move('down');
+                    break;
+                case 'ArrowUp':
+                    this.player.move('up');
+                    break;
+                case 'ArrowLeft':
+                    this.player.move('left');
+                    break;
+                case 'ArrowRight':
+                    this.player.move('right');
+                    break;
+            }
+        });
+    }
 
 }
 
@@ -40,7 +61,29 @@ class Player extends boardObject{
     
     constructor() {
         super('player', {x: 50, y: 50});
+        this.speed = 1;
     }
+
+    move(direction) {
+
+        switch (direction) {
+            case 'right':
+                this.position.x += this.speed;
+                break;
+            case 'left':
+                this.position.x -= this.speed;
+                break;
+            case 'up':
+                this.position.y -= this.speed;
+                break;
+            case 'down':
+                this.position.y += this.speed;
+                break;
+            default:
+                throw new Error('Please specify direction. Allowed values: "left", "right","up", "down".');
+        }
+    }
+
 }
 
 class Collectible extends boardObject{
