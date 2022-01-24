@@ -37,21 +37,34 @@ class Game {
             
             if (this.player.intervalID) clearInterval(this.player.intervalID);
 
-            const direction = event.key.replace('Arrow', '');
-            
-            this.player.intervalID = setInterval(() => {
+            if (event.key.includes('Arrow')) {
 
-                this.isGameOver();
-                this.player.move(direction);
-                this.positionElm(this.player);
-
-            }, this.player.speed.interval);
+                const direction = event.key.replace('Arrow', '');
+                
+                this.player.intervalID = setInterval(() => {
+    
+                    this.isGameOver();
+                    this.player.move(direction);
+                    this.positionElm(this.player);
+    
+                    this.hasCollected();
+    
+                }, this.player.speed.interval);
+            }
         });
     }
 
     isGameOver() {
-        if (this.player.position.x == 100 - this.player.width || this.player.position.y == 100 - this.player.height) {
+        if (this.player.position.x == 100 - this.player.width || this.player.position.y == 100 - this.player.height || 
+            this.player.position.x == 0 || this.player.position.y == 0) {
             alert("game over");
+        }
+    }
+
+    hasCollected() {
+        if (this.player.position.x === this.collectible.position.x && this.player.position.y === this.collectible.position.y) {
+            console.log("same position");
+            return true;
         }
     }
 
@@ -72,8 +85,8 @@ class Player extends boardObject{
     constructor() {
         super('player', {x: 50, y: 50});
         this.speed = {
-            stepSize: 1,
-            interval: 50
+            stepSize: 5,
+            interval: 100
         };
     }
 
