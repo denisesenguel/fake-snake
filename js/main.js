@@ -5,23 +5,30 @@ class Game {
         this.player = new Player();
         this.collectible = new Collectible();
 
-        this.addToDOM(this.player);
-        this.addToDOM(this.collectible);
+        this.player.htmlElm = this.addNewElm(this.player);
+        this.positionElm(this.player);
+        this.collectible.htmlElm = this.addNewElm(this.collectible);
+        this.positionElm(this.collectible);
 
         this.addEventListeners();
     }
 
-    addToDOM(object) {
+    addNewElm(object) {
         
         const newElm = document.createElement('div');
         
         newElm.className = object.name;
         newElm.style.width = object.width + "%";
         newElm.style.height = object.height + "%";
-        newElm.style.top = object.position.y + "%";
-        newElm.style.left = object.position.x + "%";
 
         document.getElementById('board').appendChild(newElm);
+    
+        return newElm;
+    }
+
+    positionElm(object) {
+        object.htmlElm.style.top = object.position.y + "%";
+        object.htmlElm.style.left = object.position.x + "%";
     }
 
     addEventListeners() {
@@ -31,15 +38,19 @@ class Game {
             switch(event.key) {
                 case 'ArrowDown':
                     this.player.move('down');
+                    this.positionElm(this.player);
                     break;
                 case 'ArrowUp':
                     this.player.move('up');
+                    this.positionElm(this.player);
                     break;
                 case 'ArrowLeft':
                     this.player.move('left');
+                    this.positionElm(this.player);
                     break;
                 case 'ArrowRight':
                     this.player.move('right');
+                    this.positionElm(this.player);
                     break;
             }
         });
