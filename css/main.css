@@ -14,16 +14,17 @@ body {
     border: 5px solid black;
     width: 80vw;
     height: 80vw;
+    position: relative;
 }
 
 .player {
     background-color: blue;
-    position: relative;
+    position: absolute;
 }
 
 .collectible {
     background-color: chocolate;
-    position: relative;
+    position: absolute;
 }
 
 @media (orientation: landscape) {

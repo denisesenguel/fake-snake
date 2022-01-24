@@ -32,7 +32,7 @@ class Game {
     }
 
     exchangeCollectible() {
-        
+
         document.getElementById('board').removeChild(this.collectible.htmlElm); 
         this.collectible = new Collectible();
         this.collectible.htmlElm = this.addNewElm(this.collectible);
@@ -54,13 +54,10 @@ class Game {
     
                     this.player.move(direction);
                     this.isGameOver();
+    
+                    if (this.hasCollected()) this.exchangeCollectible();
 
                     this.positionElm(this.player);
-    
-                    if (this.hasCollected()) {
-                        
-                        this.exchangeCollectible();
-                    };
     
                 }, this.player.speed.interval);
             }
@@ -75,10 +72,9 @@ class Game {
     }
 
     hasCollected() {
-        if (this.player.position.x === this.collectible.position.x && this.player.position.y === this.collectible.position.y) {
-            console.log("same position");
+        if (this.player.position.x == this.collectible.position.x && this.player.position.y == this.collectible.position.y) {
             return true;
-        }
+        } 
     }
 
 }
@@ -131,9 +127,16 @@ class Player extends boardObject{
 class Collectible extends boardObject{
 
     constructor() {
-        super('collectible', {x: 20, y: 80});
+        super('collectible', {x: 0, y: 0});
+
+        this.randomPosition = function(excludeThis) {
+            const n = Math.floor(Math.random() * ((100 / this.width) - 1)) * this.width;
+            return (n >= excludeThis) ? n++ : n;
+        };
+        this.position.x = this.randomPosition(101);
+        this.position.y = this.randomPosition(101);
     }
 }
 
-const game = new Game;
+const game = new Game();
 game.start();
