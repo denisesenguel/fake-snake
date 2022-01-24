@@ -43,7 +43,7 @@ class Game {
 
                 this.player.move(direction);
                 this.positionElm(this.player);
-                
+
             }, this.player.speed.interval);
         });
     }
@@ -66,7 +66,7 @@ class Player extends boardObject{
         super('player', {x: 50, y: 50});
         this.speed = {
             stepSize: 1,
-            interval: 100
+            interval: 50
         };
     }
 
@@ -75,25 +75,32 @@ class Player extends boardObject{
         switch (direction) {
             case 'right':
             case 'Right':
-            this.position.x += this.speed.stepSize;
+                if (this.position.x + this.speed.stepSize <= 100 - this.width) {
+                    this.position.x += this.speed.stepSize;
+                }
                 break;
             case 'left':
             case 'Left':
-                this.position.x -= this.speed.stepSize;
+                if (this.position.x >= this.speed.stepSize) {
+                    this.position.x -= this.speed.stepSize;
+                }
                 break;
             case 'up':
             case 'Up':
-                this.position.y -= this.speed.stepSize;
+                if (this.position.y >= this.speed.stepSize) {
+                    this.position.y -= this.speed.stepSize;
+                }
                 break;
             case 'down':
             case 'Down':
-                this.position.y += this.speed.stepSize;
+                if (this.position.y + this.speed.stepSize <= 100 - this.height) {
+                    this.position.y += this.speed.stepSize;
+                }
                 break;
             default:
                 throw new Error('Please specify direction. Allowed values: "left", "right","up", "down".');
         }
     }
-
 }
 
 class Collectible extends boardObject{
