@@ -16,6 +16,16 @@ body {
     height: 80vw;
 }
 
+.player {
+    background-color: blue;
+    position: relative;
+}
+
+.collectible {
+    background-color: chocolate;
+    position: relative;
+}
+
 @media (orientation: landscape) {
     #board {
         width: 80vh;
