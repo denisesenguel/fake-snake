@@ -41,11 +41,18 @@ class Game {
             
             this.player.intervalID = setInterval(() => {
 
+                this.isGameOver();
                 this.player.move(direction);
                 this.positionElm(this.player);
 
             }, this.player.speed.interval);
         });
+    }
+
+    isGameOver() {
+        if (this.player.position.x == 100 - this.player.width || this.player.position.y == 100 - this.player.height) {
+            alert("game over");
+        }
     }
 
 }
