@@ -30,6 +30,15 @@ class Game {
         object.htmlElm.style.top = object.position.y + "%";
         object.htmlElm.style.left = object.position.x + "%";
     }
+
+    exchangeCollectible() {
+        
+        document.getElementById('board').removeChild(this.collectible.htmlElm); 
+        this.collectible = new Collectible();
+        this.collectible.htmlElm = this.addNewElm(this.collectible);
+        this.positionElm(this.collectible);
+    }
+
     
     addEventListeners() {
         
@@ -48,7 +57,10 @@ class Game {
 
                     this.positionElm(this.player);
     
-                    this.hasCollected();
+                    if (this.hasCollected()) {
+                        
+                        this.exchangeCollectible();
+                    };
     
                 }, this.player.speed.interval);
             }
