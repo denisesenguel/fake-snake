@@ -26,29 +26,28 @@ class Game {
 
 }
 
-class Player {
-    constructor() {
-        this.name = 'player';
+class boardObject {
+    
+    constructor(type, position) {
+        this.name = type;
         this.width = 5;
         this.height = 5;
-        this.speed = 1;
-        this.position = {
-            x: 50,
-            y: 50
-        };
+        this.position = position;
     }
 }
 
-class Collectible {
+class Player extends boardObject{
+    
+    constructor() {
+        super('player', {x: 50, y: 50});
+        this.speed = 1;
+    }
+}
+
+class Collectible extends boardObject{
 
     constructor() {
-        this.name = 'collectible';
-        this.width = 5;
-        this.height = 5;
-        this.position = {
-            x: 20,
-            y: 80
-        };
+        super('collectible', {x: 20, y: 80});
     }
 }
 
