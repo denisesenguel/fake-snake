@@ -43,8 +43,9 @@ class Game {
                 
                 this.player.intervalID = setInterval(() => {
     
-                    this.isGameOver();
                     this.player.move(direction);
+                    this.isGameOver();
+
                     this.positionElm(this.player);
     
                     this.hasCollected();
@@ -55,8 +56,8 @@ class Game {
     }
 
     isGameOver() {
-        if (this.player.position.x == 100 - this.player.width || this.player.position.y == 100 - this.player.height || 
-            this.player.position.x == 0 || this.player.position.y == 0) {
+        if (this.player.position.x > 100 - this.player.width || this.player.position.y > 100 - this.player.height || 
+            this.player.position.x < 0 || this.player.position.y < 0) {
             alert("game over");
         }
     }
@@ -95,27 +96,19 @@ class Player extends boardObject{
         switch (direction) {
             case 'right':
             case 'Right':
-                if (this.position.x + this.speed.stepSize <= 100 - this.width) {
-                    this.position.x += this.speed.stepSize;
-                }
+                this.position.x += this.speed.stepSize;
                 break;
             case 'left':
             case 'Left':
-                if (this.position.x >= this.speed.stepSize) {
-                    this.position.x -= this.speed.stepSize;
-                }
+                this.position.x -= this.speed.stepSize;
                 break;
             case 'up':
             case 'Up':
-                if (this.position.y >= this.speed.stepSize) {
-                    this.position.y -= this.speed.stepSize;
-                }
+                this.position.y -= this.speed.stepSize;
                 break;
             case 'down':
             case 'Down':
-                if (this.position.y + this.speed.stepSize <= 100 - this.height) {
-                    this.position.y += this.speed.stepSize;
-                }
+                this.position.y += this.speed.stepSize;
                 break;
             default:
                 throw new Error('Please specify direction. Allowed values: "left", "right","up", "down".');
