@@ -30,56 +30,21 @@ class Game {
         object.htmlElm.style.top = object.position.y + "%";
         object.htmlElm.style.left = object.position.x + "%";
     }
-
+    
     addEventListeners() {
-
+        
         document.addEventListener('keydown', event => {
             
-            switch(event.key) {
-                case 'ArrowDown':
+            if (this.player.intervalID) clearInterval(this.player.intervalID);
 
-                    if (this.player.intervalID) clearInterval(this.player.intervalID);
+            const direction = event.key.replace('Arrow', '');
+            
+            this.player.intervalID = setInterval(() => {
 
-                    this.player.intervalID = setInterval(() => {
-                        this.player.move('down');
-                        this.positionElm(this.player);
-                    }, this.player.speed.interval);
-
-                    break;
-
-                case 'ArrowUp':
-
-                    if (this.player.intervalID) clearInterval(this.player.intervalID);
-
-                    this.player.intervalID = setInterval(() => {
-                        this.player.move('up');
-                        this.positionElm(this.player);
-                    }, this.player.speed.interval);
-                    
-                    break;
-
-                case 'ArrowLeft':
-
-                    if (this.player.intervalID) clearInterval(this.player.intervalID);
-                    
-                    this.player.intervalID = setInterval(() => {
-                        this.player.move('left');
-                        this.positionElm(this.player);
-                    }, this.player.speed.interval);
-
-                    break;
-
-                case 'ArrowRight':
-
-                    if (this.player.intervalID) clearInterval(this.player.intervalID);
-
-                    this.player.intervalID = setInterval(() => {
-                        this.player.move('right');
-                        this.positionElm(this.player);
-                    }, this.player.speed.interval);
-
-                    break;
-            }
+                this.player.move(direction);
+                this.positionElm(this.player);
+                
+            }, this.player.speed.interval);
         });
     }
 
@@ -109,15 +74,19 @@ class Player extends boardObject{
 
         switch (direction) {
             case 'right':
-                this.position.x += this.speed.stepSize;
+            case 'Right':
+            this.position.x += this.speed.stepSize;
                 break;
             case 'left':
+            case 'Left':
                 this.position.x -= this.speed.stepSize;
                 break;
             case 'up':
+            case 'Up':
                 this.position.y -= this.speed.stepSize;
                 break;
             case 'down':
+            case 'Down':
                 this.position.y += this.speed.stepSize;
                 break;
             default:
