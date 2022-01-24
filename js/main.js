@@ -37,20 +37,47 @@ class Game {
             
             switch(event.key) {
                 case 'ArrowDown':
-                    this.player.move('down');
-                    this.positionElm(this.player);
+
+                    if (this.player.intervalID) clearInterval(this.player.intervalID);
+
+                    this.player.intervalID = setInterval(() => {
+                        this.player.move('down');
+                        this.positionElm(this.player);
+                    }, this.player.speed.interval);
+
                     break;
+
                 case 'ArrowUp':
-                    this.player.move('up');
-                    this.positionElm(this.player);
+
+                    if (this.player.intervalID) clearInterval(this.player.intervalID);
+
+                    this.player.intervalID = setInterval(() => {
+                        this.player.move('up');
+                        this.positionElm(this.player);
+                    }, this.player.speed.interval);
+                    
                     break;
+
                 case 'ArrowLeft':
-                    this.player.move('left');
-                    this.positionElm(this.player);
+
+                    if (this.player.intervalID) clearInterval(this.player.intervalID);
+                    
+                    this.player.intervalID = setInterval(() => {
+                        this.player.move('left');
+                        this.positionElm(this.player);
+                    }, this.player.speed.interval);
+
                     break;
+
                 case 'ArrowRight':
-                    this.player.move('right');
-                    this.positionElm(this.player);
+
+                    if (this.player.intervalID) clearInterval(this.player.intervalID);
+
+                    this.player.intervalID = setInterval(() => {
+                        this.player.move('right');
+                        this.positionElm(this.player);
+                    }, this.player.speed.interval);
+
                     break;
             }
         });
@@ -72,23 +99,26 @@ class Player extends boardObject{
     
     constructor() {
         super('player', {x: 50, y: 50});
-        this.speed = 1;
+        this.speed = {
+            stepSize: 1,
+            interval: 100
+        };
     }
 
     move(direction) {
 
         switch (direction) {
             case 'right':
-                this.position.x += this.speed;
+                this.position.x += this.speed.stepSize;
                 break;
             case 'left':
-                this.position.x -= this.speed;
+                this.position.x -= this.speed.stepSize;
                 break;
             case 'up':
-                this.position.y -= this.speed;
+                this.position.y -= this.speed.stepSize;
                 break;
             case 'down':
-                this.position.y += this.speed;
+                this.position.y += this.speed.stepSize;
                 break;
             default:
                 throw new Error('Please specify direction. Allowed values: "left", "right","up", "down".');
