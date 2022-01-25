@@ -35,6 +35,8 @@ body {
 
 #score-box {
     margin: 50px;
+    width: 80vw;
+    text-align: center;
 }
 
 .start-and-end {
@@ -54,5 +56,10 @@ body {
     #board {
         width: 80vh;
         height: 80vh;
+    }
+
+    #score-box {
+        width: 15vw;
+        text-align: left;
     }
 }

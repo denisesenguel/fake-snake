@@ -103,7 +103,7 @@ class Game {
         clearInterval(this.player.intervalID);
 
         document.getElementById("board").innerHTML = "";
-        document.getElementById("score-box").innerText = "";
+        document.getElementById("score-box").innerText = "Score: 0";
         document.querySelector(".container").style.display = "none";
         
         document.querySelector(".start-and-end").style.display = "flex";
