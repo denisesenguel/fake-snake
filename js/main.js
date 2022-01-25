@@ -2,6 +2,7 @@ class Game {
 
     start() {
         
+        this.score = 0;
         this.player = new Player();
         this.collectible = new Collectible(this.player.position);
 
@@ -40,6 +41,20 @@ class Game {
     }
 
     
+    isGameOver() {
+        if (this.player.position.x > 100 - this.player.width || this.player.position.y > 100 - this.player.height || 
+            this.player.position.x < 0 || this.player.position.y < 0) {
+                alert("game over");
+            }
+        }
+        
+    hasCollected() {
+        if (this.player.position.x == this.collectible.position.x && this.player.position.y == this.collectible.position.y) {
+            this.score += 10;
+            return true;
+        } 
+    }     
+    
     addEventListeners() {
         
         document.addEventListener('keydown', event => {
@@ -63,20 +78,6 @@ class Game {
             }
         });
     }
-
-    isGameOver() {
-        if (this.player.position.x > 100 - this.player.width || this.player.position.y > 100 - this.player.height || 
-            this.player.position.x < 0 || this.player.position.y < 0) {
-            alert("game over");
-        }
-    }
-
-    hasCollected() {
-        if (this.player.position.x == this.collectible.position.x && this.player.position.y == this.collectible.position.y) {
-            return true;
-        } 
-    }
-
 }
 
 class boardObject {
