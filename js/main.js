@@ -1,8 +1,14 @@
 class Game {
 
-    start() {
-        
+    constructor() {
         this.score = 0;
+    }
+
+    start() {
+
+        document.querySelector(".start-and-end").style.display = "none";
+        document.querySelector(".container").style.display = "flex"; 
+
         this.player = new Player();
         this.collectible = new Collectible(this.player.position);
 
@@ -39,14 +45,16 @@ class Game {
         this.collectible.htmlElm = this.addNewElm(this.collectible);
         this.positionElm(this.collectible);
     }
-
     
     isGameOver() {
-        if (this.player.position.x > 100 - this.player.width || this.player.position.y > 100 - this.player.height || 
-            this.player.position.x < 0 || this.player.position.y < 0) {
-                alert("game over");
-            }
+        if (this.player.position.x > 100 - this.player.width || 
+            this.player.position.y > 100 - this.player.height || 
+            this.player.position.x < 0 || 
+            this.player.position.y < 0) {
+            
+            return true;
         }
+    }
         
     hasCollected() {
         if (this.player.position.x == this.collectible.position.x && this.player.position.y == this.collectible.position.y) {
@@ -58,7 +66,7 @@ class Game {
         this.score += 10;
         document.getElementById("score-box").innerText = `Score: ${this.score}`;
     }
-    
+
     addEventListeners() {
         
         document.addEventListener('keydown', event => {
@@ -72,7 +80,10 @@ class Game {
                 this.player.intervalID = setInterval(() => {
     
                     this.player.move(direction);
-                    this.isGameOver();
+                    
+                    if (this.isGameOver()) {
+                        this.stop();
+                    }
     
                     if (this.hasCollected()) {
                         this.exchangeCollectible();
@@ -84,6 +95,21 @@ class Game {
                 }, this.player.speed.interval);
             }
         });
+    }
+
+    stop() {
+
+        clearInterval(this.player.intervalID);
+
+        document.getElementById("board").innerHTML = "";
+        document.getElementById("score-box").innerText = "";
+        document.querySelector(".container").style.display = "none";
+        
+        document.querySelector(".start-and-end").style.display = "flex";
+
+        document.querySelector(".start-and-end h1").innerText = "Game Over!"
+        document.querySelector(".start-and-end h2").innerText = `Your Score: ${this.score}`;
+        document.getElementById("play").innerText = "Play again!";
     }
 }
 
@@ -106,6 +132,7 @@ class Player extends boardObject{
             interval: 100
         };
         this.currentDirection = null;
+        this.intervalID = null;
     }
 
     move(direction) {
@@ -175,5 +202,8 @@ class Collectible extends boardObject{
     }
 }
 
-const game = new Game();
-game.start();
+document.getElementById("play").addEventListener('click', () => {
+    
+    const game = new Game();
+    game.start();
+});
