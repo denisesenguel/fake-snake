@@ -97,6 +97,7 @@ class Player extends boardObject{
             stepSize: 5,
             interval: 100
         };
+        this.currentDirection = null;
     }
 
     move(direction) {
@@ -104,22 +105,42 @@ class Player extends boardObject{
         switch (direction) {
             case 'right':
             case 'Right':
-                this.position.x += this.speed.stepSize;
+                if (this.currentDirection !== 'left') {
+                    this.position.x += this.speed.stepSize;
+                    this.currentDirection = 'right';
+                } else {
+                    this.move('left');
+                }
                 break;
             case 'left':
             case 'Left':
-                this.position.x -= this.speed.stepSize;
+                if (this.currentDirection !== 'right') {
+                    this.position.x -= this.speed.stepSize;
+                    this.currentDirection = 'left';
+                } else {
+                    this.move('right');
+                }
                 break;
             case 'up':
             case 'Up':
-                this.position.y -= this.speed.stepSize;
+                if (this.currentDirection !== 'down') {
+                    this.position.y -= this.speed.stepSize;
+                    this.currentDirection = 'up';
+                } else {
+                    this.move('down');
+                }
                 break;
             case 'down':
             case 'Down':
-                this.position.y += this.speed.stepSize;
+                if (this.currentDirection !== 'up') {
+                    this.position.y += this.speed.stepSize;
+                    this.currentDirection = 'down';
+                } else {
+                    this.move('up');
+                }
                 break;
             default:
-                throw new Error('Please specify direction. Allowed values: "left", "right","up", "down".');
+                throw new Error('Please specify direction. Allowed values: "left/Left", "right/Right", "up/Up", "down/Down".');
         }
     }
 }
