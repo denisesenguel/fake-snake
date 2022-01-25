@@ -3,7 +3,7 @@ class Game {
     start() {
         
         this.player = new Player();
-        this.collectible = new Collectible();
+        this.collectible = new Collectible(this.player.position);
 
         this.player.htmlElm = this.addNewElm(this.player);
         this.positionElm(this.player);
@@ -34,7 +34,7 @@ class Game {
     exchangeCollectible() {
 
         document.getElementById('board').removeChild(this.collectible.htmlElm); 
-        this.collectible = new Collectible();
+        this.collectible = new Collectible(this.player.position);
         this.collectible.htmlElm = this.addNewElm(this.collectible);
         this.positionElm(this.collectible);
     }
@@ -126,15 +126,24 @@ class Player extends boardObject{
 
 class Collectible extends boardObject{
 
-    constructor() {
+    constructor(excludePosition) {
         super('collectible', {x: 0, y: 0});
 
-        this.randomPosition = function(excludeThis) {
-            const n = Math.floor(Math.random() * ((100 / this.width) - 1)) * this.width;
-            return (n >= excludeThis) ? n++ : n;
+        this.randomPosition = function(exclude) {
+            let x, y, r1 = Math.random(), r2 = Math.random();
+
+            x = Math.floor(r1 * (100 / this.width)) * this.width;
+            y = Math.floor(r2 * (100 / this.height)) * this.height;
+
+            if (exclude.x == x && exclude.y == y) {
+                this.randomPosition(exclude);
+            } else {
+                return {x : x, y: y};  
+            }
         };
-        this.position.x = this.randomPosition(101);
-        this.position.y = this.randomPosition(101);
+        this.position = this.randomPosition(excludePosition);
+        console.log("new collectible created");
+        console.log(this.position);
     }
 }
 
