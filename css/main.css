@@ -24,11 +24,13 @@ body {
 .player {
     background-color: blue;
     position: absolute;
+    border-radius: 10%;
 }
 
 .collectible {
     background-color: chocolate;
     position: absolute;
+    border-radius: 10%;
 }
 
 #score-box {
