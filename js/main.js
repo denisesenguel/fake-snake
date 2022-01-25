@@ -10,41 +10,53 @@ class Game {
         document.querySelector(".start-and-end").style.display = "none";
         document.querySelector(".container").style.display = "flex"; 
 
-        this.player = new Player();
-        this.collectible = new Collectible(this.player.position);
-
-        this.player.htmlElm = this.addNewElm(this.player);
-        this.positionElm(this.player);
-        this.collectible.htmlElm = this.addNewElm(this.collectible);
-        this.positionElm(this.collectible);
+        this.addPlayer();
+        
+        this.addNewCollectible();
 
         this.addEventListeners();
     }
 
-    addNewElm(object) {
+    addNewElm(width, height, position) {
         
         const newElm = document.createElement('div');
         
-        newElm.className = object.name;
-        newElm.style.width = object.width + "%";
-        newElm.style.height = object.height + "%";
+        newElm.style.width = width + "%";
+        newElm.style.height = height + "%";
+        this.positionElm(newElm, position);
 
         document.getElementById('board').appendChild(newElm);
     
         return newElm;
     }
 
-    positionElm(object) {
-        object.htmlElm.style.top = object.position.y + "%";
-        object.htmlElm.style.left = object.position.x + "%";
+    positionElm(elm, position) {
+        elm.style.top = position.y + "%";
+        elm.style.left = position.x + "%";
     }
 
-    exchangeCollectible() {
+    addPlayer() {
+        
+        this.player = new Player();
+        
+        this.player.htmlElm = this.addNewElm(this.player.width, this.player.height, this.player.position);
+        this.player.htmlElm.className = this.player.name;
+        let newEl;
+        this.player.tail.forEach(element => {
+            newEl = this.addNewElm(this.player.width, this.player.height, element.position);
+            newEl.className = this.player.name;
+            element["htmlElm"] = newEl;
+        });
+    }
 
-        document.getElementById('board').removeChild(this.collectible.htmlElm); 
+    addNewCollectible() {
+
+        if (this.collectible) {
+            document.getElementById('board').removeChild(this.collectible.htmlElm); 
+        }
         this.collectible = new Collectible(this.player.position);
-        this.collectible.htmlElm = this.addNewElm(this.collectible);
-        this.positionElm(this.collectible);
+        this.collectible.htmlElm = this.addNewElm(this.collectible.width, this.collectible.height, this.collectible.position);
+        this.collectible.htmlElm.className = this.collectible.name;
     }
     
     isGameOver() {
@@ -87,11 +99,12 @@ class Game {
                     }
     
                     if (this.hasCollected()) {
-                        this.exchangeCollectible();
+                        this.addNewCollectible();
                         this.addToScore();
                     }
 
-                    this.positionElm(this.player);
+                    this.positionElm(this.player.htmlElm, this.player.position);
+                    this.player.tail.forEach(el => this.positionElm(el.htmlElm, el.position));
     
                 }, this.player.speed.interval);
             }
@@ -137,8 +150,11 @@ class Player extends boardObject{
         this.currentDirection = null;
         this.intervalID = null;
         this.tail = [{
-            x: this.position.x,
-            y: this.position.y - this.height
+            htmlElm: undefined,
+            position: {
+                x: this.position.x,
+                y: this.position.y - this.height
+            }
         }];
     }
 
@@ -146,7 +162,8 @@ class Player extends boardObject{
 
         if (direction != this.currentDirection) {
 
-            this.tail[0] = this.position;
+            this.tail[0].position = { ...this.position };
+            console.log(this.tail);
             switch (direction) {
                 case 'right':
                 case 'Right':
