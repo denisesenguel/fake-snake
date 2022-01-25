@@ -163,7 +163,6 @@ class Player extends boardObject{
         if (direction != this.currentDirection) {
 
             this.tail[0].position = { ...this.position };
-            console.log(this.tail);
             switch (direction) {
                 case 'right':
                 case 'Right':
