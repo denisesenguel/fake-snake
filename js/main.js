@@ -50,10 +50,14 @@ class Game {
         
     hasCollected() {
         if (this.player.position.x == this.collectible.position.x && this.player.position.y == this.collectible.position.y) {
-            this.score += 10;
             return true;
         } 
-    }     
+    }
+    
+    addToScore() {
+        this.score += 10;
+        document.getElementById("score-box").innerText = `Score: ${this.score}`;
+    }
     
     addEventListeners() {
         
@@ -70,7 +74,10 @@ class Game {
                     this.player.move(direction);
                     this.isGameOver();
     
-                    if (this.hasCollected()) this.exchangeCollectible();
+                    if (this.hasCollected()) {
+                        this.exchangeCollectible();
+                        this.addToScore();
+                    }
 
                     this.positionElm(this.player);
     
