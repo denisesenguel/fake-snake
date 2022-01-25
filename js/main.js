@@ -2,6 +2,7 @@ class Game {
 
     constructor() {
         this.score = 0;
+        this.controller = new AbortController;
     }
 
     start() {
@@ -94,7 +95,7 @@ class Game {
     
                 }, this.player.speed.interval);
             }
-        });
+        }, { signal: this.controller.signal });
     }
 
     stop() {
@@ -107,9 +108,11 @@ class Game {
         
         document.querySelector(".start-and-end").style.display = "flex";
 
-        document.querySelector(".start-and-end h1").innerText = "Game Over!"
+        document.querySelector(".start-and-end h1").innerText = "Game Over!";
         document.querySelector(".start-and-end h2").innerText = `Your Score: ${this.score}`;
         document.getElementById("play").innerText = "Play again!";
+        
+        this.controller.abort();
     }
 }
 
