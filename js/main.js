@@ -129,56 +129,47 @@ class boardObject {
 class Player extends boardObject{
     
     constructor() {
-        super('player', {x: 50, y: 50});
+        super('player', {x: 50, y: 20});
         this.speed = {
             stepSize: 5,
             interval: 100
         };
         this.currentDirection = null;
         this.intervalID = null;
+        this.tail = [{
+            x: this.position.x,
+            y: this.position.y - this.height
+        }];
     }
 
     move(direction) {
 
-        switch (direction) {
-            case 'right':
-            case 'Right':
-                if (this.currentDirection !== 'left') {
+        if (direction != this.currentDirection) {
+
+            this.tail[0] = this.position;
+            switch (direction) {
+                case 'right':
+                case 'Right':
                     this.position.x += this.speed.stepSize;
-                    this.currentDirection = 'right';
-                } else {
-                    this.move('left');
-                }
-                break;
-            case 'left':
-            case 'Left':
-                if (this.currentDirection !== 'right') {
+                    break;
+                case 'left':
+                case 'Left':
                     this.position.x -= this.speed.stepSize;
-                    this.currentDirection = 'left';
-                } else {
-                    this.move('right');
-                }
-                break;
-            case 'up':
-            case 'Up':
-                if (this.currentDirection !== 'down') {
+                    break;
+                case 'up':
+                case 'Up':
                     this.position.y -= this.speed.stepSize;
-                    this.currentDirection = 'up';
-                } else {
-                    this.move('down');
-                }
-                break;
-            case 'down':
-            case 'Down':
-                if (this.currentDirection !== 'up') {
+                    break;
+                case 'down':
+                case 'Down':
                     this.position.y += this.speed.stepSize;
-                    this.currentDirection = 'down';
-                } else {
-                    this.move('up');
-                }
-                break;
-            default:
-                throw new Error('Please specify direction. Allowed values: "left/Left", "right/Right", "up/Up", "down/Down".');
+                    break;
+                default:
+                    throw new Error('Please specify direction. Allowed values: "left/Left", "right/Right", "up/Up", "down/Down".');
+            }
+
+        } else {
+            this.move(this.currentDirection);
         }
     }
 }
