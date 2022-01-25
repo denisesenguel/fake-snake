@@ -127,6 +127,7 @@ class Player extends boardObject{
 class Collectible extends boardObject{
 
     constructor(excludePosition) {
+
         super('collectible', {x: 0, y: 0});
 
         this.randomPosition = function(exclude) {
@@ -142,8 +143,6 @@ class Collectible extends boardObject{
             }
         };
         this.position = this.randomPosition(excludePosition);
-        console.log("new collectible created");
-        console.log(this.position);
     }
 }
 
