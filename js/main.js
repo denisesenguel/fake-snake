@@ -52,7 +52,7 @@ class Game {
         if (this.collectible) {
             document.getElementById('board').removeChild(this.collectible.htmlElm); 
         }
-        this.collectible = new Collectible(this.player.snake[0].position);
+        this.collectible = new Collectible(this.player.snake);
         this.collectible.htmlElm = this.addNewElm(this.collectible.size, this.collectible.position);
         this.collectible.htmlElm.className = "collectible";
     }
@@ -189,7 +189,7 @@ class Player {
 
 class Collectible {
 
-    constructor(excludePosition) {
+    constructor(excludePos) {
         
         this.size = 5;
         this.htmlElm = null;
@@ -199,13 +199,14 @@ class Collectible {
             x = Math.floor(r1 * (100 / this.size)) * this.size;
             y = Math.floor(r2 * (100 / this.size)) * this.size;
 
-            if (exclude.x == x && exclude.y == y) {
-                this.randomPosition(exclude);
-            } else {
-                return {x : x, y: y};  
+            for (let i = 0; i < excludePos.length; i++) {
+                if (excludePos[i].x == x && excludePos[i].y == y) {
+                    this.randomPosition(excludePos);
+                } 
             }
+            return {x: x, y: y}
         };
-        this.position = this.randomPosition(excludePosition);
+        this.position = this.randomPosition(excludePos);
     }
 }
 
