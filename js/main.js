@@ -215,9 +215,23 @@ class Collectible {
     }
 }
 
-document.getElementsByClassName("btn-play").addEventListener('click', () => {
-    
+// introduce levels
+for (let i = 0; i < 3; i++) {
 
-    const game = new Game();
-    game.start();
-});
+    document.getElementById(`btn-level-${i}`).addEventListener('click', () => {
+        
+        switch (i) {
+            case 0: 
+                speed = 150;
+                break;
+            case 1: 
+                speed = 100;
+                break;
+            case 2:
+                speed = 50;
+                break
+        }
+        const game = new Game();
+        game.start(speed);
+    });
+}

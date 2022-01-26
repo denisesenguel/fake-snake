@@ -58,6 +58,14 @@ body {
     align-items: center;
 }
 
+.btn-level {
+    padding: 10px;
+    margin: 20px;
+    text-decoration: none;
+    font-family: inherit;
+    font-weight: inherit;
+}
+
 @media (orientation: landscape) {
     .container {
         flex-direction: row;
