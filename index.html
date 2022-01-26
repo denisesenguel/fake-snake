@@ -9,15 +9,25 @@
 </head>
 <body>
 
-    <div class="start-and-end">
+    <div id="start-screen" class="start-and-end">
         <h1>Want to Play?</h1>
-        <h2></h2>
-        <button id="play">Yesplease!</button>
+        <h2>Choose your Level:</h2>
+        <div id="levels">
+            <button class="btn-level">Slow</button>
+            <button class="btn-level">Medium</button>
+            <button class="btn-level">Fast</button>
+        </div>
     </div>
     
     <div class="container">
         <div id="board"></div>
         <div id="score-box">Score: 0</div>
+    </div>
+
+    <div id="game-over" class="start-and-end">
+        <h1>Game Over!</h1>
+        <h2></h2>
+        <button id="play">Play Again.</button>
     </div>
 
     <script src="./js/main.js"></script>

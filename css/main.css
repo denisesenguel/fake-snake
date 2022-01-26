@@ -48,6 +48,16 @@ body {
     height: 100vh;
 }
 
+#game-over {
+    display: none;
+}
+
+.levels {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 @media (orientation: landscape) {
     .container {
         flex-direction: row;

@@ -5,12 +5,12 @@ class Game {
         this.controller = new AbortController;
     }
 
-    start() {
+    start(speed) {
 
         document.querySelector(".start-and-end").style.display = "none";
         document.querySelector(".container").style.display = "flex"; 
 
-        this.addPlayer();
+        this.addPlayer(speed);
         
         this.addNewCollectible();
 
@@ -37,9 +37,9 @@ class Game {
         elm.style.left = position.x + "%";
     }
 
-    addPlayer() {
+    addPlayer(speed) {
         
-        this.player = new Player();
+        this.player = new Player(speed);
     
         let newEl;
         this.player.snake.forEach(element => {
@@ -135,11 +135,11 @@ class Game {
 
 class Player {
     
-    constructor() {
+    constructor(speed) {
         this.size = 5;
         this.speed = {
             stepSize: 5,
-            interval: 100
+            interval: speed
         };
         this.generateSnake = function(length, headPosition) {
 
@@ -215,8 +215,9 @@ class Collectible {
     }
 }
 
-document.getElementById("play").addEventListener('click', () => {
+document.getElementsByClassName("btn-play").addEventListener('click', () => {
     
+
     const game = new Game();
     game.start();
 });
