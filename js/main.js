@@ -126,8 +126,8 @@ class Game {
         document.querySelector(".start-and-end").style.display = "flex";
 
         document.querySelector(".start-and-end h1").innerText = "Game Over!";
-        document.querySelector(".start-and-end h2").innerText = `Your Score: ${this.score}`;
-        document.getElementById("play").innerText = "Play again!";
+        document.querySelector(".start-and-end h3").innerText = "Play Again? Pick a Level:"
+        document.getElementById("end-score").innerText = `Your Score: ${this.score}`;
         
         this.controller.abort();
     }

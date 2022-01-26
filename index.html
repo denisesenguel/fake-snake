@@ -9,9 +9,10 @@
 </head>
 <body>
 
-    <div id="start-screen" class="start-and-end">
+    <div class="start-and-end">
         <h1>Wanna Play?</h1>
-        <h2>Choose your Level...</h2>
+        <h2 id="end-score"></h2>
+        <h3>Choose your level..</h3>
         <div id="levels">
             <button class="btn-level" id="btn-level-0">Slow</button>
             <button class="btn-level" id="btn-level-1">Medium</button>
@@ -22,12 +23,6 @@
     <div class="container">
         <div id="board"></div>
         <div id="score-box">Score: 0</div>
-    </div>
-
-    <div id="game-over" class="start-and-end">
-        <h1>Game Over!</h1>
-        <h2></h2>
-        <button id="play">Play Again.</button>
     </div>
 
     <script src="./js/main.js"></script>
