@@ -14,6 +14,8 @@ class Game {
         
         this.addNewCollectible();
 
+        this.movePlayerContinuously(this.player.currentDirection);
+
         this.addEventListeners();
     }
 
@@ -78,6 +80,26 @@ class Game {
         document.getElementById("score-box").innerText = `Score: ${this.score}`;
     }
 
+    movePlayerContinuously(direction) 
+    {
+        this.player.intervalID = setInterval(() => {
+    
+            this.player.move(direction);
+            
+            if (this.isGameOver()) {
+                this.stop();
+            }
+
+            if (this.hasCollected()) {
+                this.addNewCollectible();
+                this.addToScore();
+            }
+
+            this.player.snake.forEach(el => this.positionElm(el.htmlElm, el.position));
+
+        }, this.player.speed.interval);
+    }
+
     addEventListeners() {
         
         document.addEventListener('keydown', event => {
@@ -88,22 +110,7 @@ class Game {
 
                 const direction = event.key.replace('Arrow', '').toLowerCase();
                 
-                this.player.intervalID = setInterval(() => {
-    
-                    this.player.move(direction);
-                    
-                    if (this.isGameOver()) {
-                        this.stop();
-                    }
-    
-                    if (this.hasCollected()) {
-                        this.addNewCollectible();
-                        this.addToScore();
-                    }
-
-                    this.player.snake.forEach(el => this.positionElm(el.htmlElm, el.position));
-    
-                }, this.player.speed.interval);
+                this.movePlayerContinuously(direction);
             }
         }, { signal: this.controller.signal });
     }
@@ -149,9 +156,9 @@ class Player {
                 );
             }
         };
-        this.generateSnake(2, {x: 50, y: 50});
+        this.generateSnake(2, {x: 50, y: 10});
         
-        this.currentDirection = null;
+        this.currentDirection = 'down';
         this.intervalID = null;
     }
 
@@ -191,7 +198,7 @@ class Collectible {
         
         this.size = 5;
         this.htmlElm = null;
-        this.randomPosition = function(exclude) {
+        this.randomPosition = function(excludePos) {
             let x, y, r1 = Math.random(), r2 = Math.random();
 
             x = Math.floor(r1 * (100 / this.size)) * this.size;
