@@ -17,12 +17,12 @@ class Game {
         this.addEventListeners();
     }
 
-    addNewElm(width, height, position) {
+    addNewElm(size, position) {
         
         const newElm = document.createElement('div');
         
-        newElm.style.width = width + "%";
-        newElm.style.height = height + "%";
+        newElm.style.width = size + "%";
+        newElm.style.height = size + "%";
         this.positionElm(newElm, position);
 
         document.getElementById('board').appendChild(newElm);
@@ -39,11 +39,11 @@ class Game {
         
         this.player = new Player();
         
-        this.player.htmlElm = this.addNewElm(this.player.width, this.player.height, this.player.position);
+        this.player.htmlElm = this.addNewElm(this.player.size, this.player.position);
         this.player.htmlElm.className = this.player.name;
         let newEl;
         this.player.tail.forEach(element => {
-            newEl = this.addNewElm(this.player.width, this.player.height, element.position);
+            newEl = this.addNewElm(this.player.size, element.position);
             newEl.className = this.player.name;
             element["htmlElm"] = newEl;
         });
@@ -55,13 +55,13 @@ class Game {
             document.getElementById('board').removeChild(this.collectible.htmlElm); 
         }
         this.collectible = new Collectible(this.player.position);
-        this.collectible.htmlElm = this.addNewElm(this.collectible.width, this.collectible.height, this.collectible.position);
+        this.collectible.htmlElm = this.addNewElm(this.collectible.size, this.collectible.position);
         this.collectible.htmlElm.className = this.collectible.name;
     }
     
     isGameOver() {
-        if (this.player.position.x > 100 - this.player.width || 
-            this.player.position.y > 100 - this.player.height || 
+        if (this.player.position.x > 100 - this.player.size || 
+            this.player.position.y > 100 - this.player.size || 
             this.player.position.x < 0 || 
             this.player.position.y < 0) {
             
@@ -133,8 +133,7 @@ class boardObject {
     
     constructor(type, position) {
         this.name = type;
-        this.width = 5;
-        this.height = 5;
+        this.size = 5;
         this.position = position;
     }
 }
@@ -153,7 +152,7 @@ class Player extends boardObject{
             htmlElm: undefined,
             position: {
                 x: this.position.x,
-                y: this.position.y - this.height
+                y: this.position.y - this.size
             }
         }];
     }
@@ -199,8 +198,8 @@ class Collectible extends boardObject{
         this.randomPosition = function(exclude) {
             let x, y, r1 = Math.random(), r2 = Math.random();
 
-            x = Math.floor(r1 * (100 / this.width)) * this.width;
-            y = Math.floor(r2 * (100 / this.height)) * this.height;
+            x = Math.floor(r1 * (100 / this.size)) * this.size;
+            y = Math.floor(r2 * (100 / this.size)) * this.size;
 
             if (exclude.x == x && exclude.y == y) {
                 this.randomPosition(exclude);
