@@ -86,7 +86,7 @@ class Game {
 
             if (event.key.includes('Arrow')) {
 
-                const direction = event.key.replace('Arrow', '');
+                const direction = event.key.replace('Arrow', '').toLowerCase();
                 
                 this.player.intervalID = setInterval(() => {
     
@@ -157,29 +157,27 @@ class Player {
 
     move(direction) {
 
-        if (direction != this.currentDirection) {
+        if (!((direction == 'right' && this.currentDirection == 'left') || (direction == 'left' && this.currentDirection == 'right') ||
+            (direction == 'up' && this.currentDirection == 'down') || (direction == 'down' && this.currentDirection == 'up'))) {
 
             this.snake[1].position = { ...this.snake[0].position };
             switch (direction) {
                 case 'right':
-                case 'Right':
                     this.snake[0].position.x += this.speed.stepSize;
                     break;
                 case 'left':
-                case 'Left':
                     this.snake[0].position.x -= this.speed.stepSize;
                     break;
                 case 'up':
-                case 'Up':
                     this.snake[0].position.y -= this.speed.stepSize;
                     break;
                 case 'down':
-                case 'Down':
                     this.snake[0].position.y += this.speed.stepSize;
                     break;
                 default:
                     throw new Error('Please specify direction. Allowed values: "left/Left", "right/Right", "up/Up", "down/Down".');
             }
+            this.currentDirection = direction;
 
         } else {
             this.move(this.currentDirection);
