@@ -89,6 +89,7 @@ class Game {
             }
 
             if (this.hasCollected()) {
+                this.growSnake();
                 this.addNewCollectible();
                 this.addToScore();
             }
@@ -123,6 +124,13 @@ class Game {
         
         clearInterval(this.player.intervalID);
         this.controller.abort();
+    }
+
+    growSnake() {
+        this.player.grow();
+        const addedElm = this.player.snake[this.player.snake.length - 1];
+        addedElm.htmlElm = this.addNewElm(this.player.size, addedElm.position);
+        addedElm.htmlElm.className = "player";
     }
 
     makeVisible(divID) {
@@ -163,8 +171,8 @@ class Player {
             }
         };
         this.generateSnake(3, {x: 50, y: 10});
-        
         this.currentDirection = 'down';
+        this.lastTailPosition = this.snake[this.snake.length - 1].position;
         this.intervalID = null;
     }
 
@@ -173,6 +181,7 @@ class Player {
         if (!((direction == 'right' && this.currentDirection == 'left') || (direction == 'left' && this.currentDirection == 'right') ||
             (direction == 'up' && this.currentDirection == 'down') || (direction == 'down' && this.currentDirection == 'up'))) {
 
+            this.lastTailPosition = this.snake[this.snake.length - 1].position;
             for (let i = this.snake.length - 1; i > 0; i--) {
                 this.snake[i].position = { ...this.snake[i - 1].position };
             }
@@ -197,6 +206,15 @@ class Player {
         } else {
             this.move(this.currentDirection);
         }
+    }
+
+    grow() {
+        this.snake.push(
+            {
+                htmlElm: undefined,
+                position: this.lastTailPosition
+            }
+        );
     }
 
 }
