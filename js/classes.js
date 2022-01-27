@@ -58,13 +58,14 @@ class Game {
     }
     
     isGameOver() {
-        if (this.player.snake[0].position.x > 100 - this.player.size || 
+
+        const isHittingBorder = (
+            this.player.snake[0].position.x > 100 - this.player.size || 
             this.player.snake[0].position.y > 100 - this.player.size || 
-            this.player.snake[0].position.x < 0 || 
-            this.player.snake[0].position.y < 0) {
-            
-            return true;
-        }
+            this.player.snake[0].position.x < 0 || this.player.snake[0].position.y < 0
+            );
+        const isHittingItself = this.player.snake.filter((el, i, arr) => i != 0 && el.position.x == arr[0].position.x && el.position.y == arr[0].position.y).length > 0;
+        return (isHittingBorder ||isHittingItself) ? true : false;
     }
         
     hasCollected() {
