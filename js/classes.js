@@ -162,7 +162,7 @@ class Player {
                 );
             }
         };
-        this.generateSnake(2, {x: 50, y: 10});
+        this.generateSnake(3, {x: 50, y: 10});
         
         this.currentDirection = 'down';
         this.intervalID = null;
@@ -173,7 +173,9 @@ class Player {
         if (!((direction == 'right' && this.currentDirection == 'left') || (direction == 'left' && this.currentDirection == 'right') ||
             (direction == 'up' && this.currentDirection == 'down') || (direction == 'down' && this.currentDirection == 'up'))) {
 
-            this.snake[1].position = { ...this.snake[0].position };
+            for (let i = this.snake.length - 1; i > 0; i--) {
+                this.snake[i].position = { ...this.snake[i - 1].position };
+            }
             switch (direction) {
                 case 'right':
                     this.snake[0].position.x += this.speed.stepSize;
@@ -188,7 +190,7 @@ class Player {
                     this.snake[0].position.y += this.speed.stepSize;
                     break;
                 default:
-                    throw new Error('Please specify direction. Allowed values: "left/Left", "right/Right", "up/Up", "down/Down".');
+                    throw new Error('Please specify direction. Allowed values: "left", "right", "up", "down".');
             }
             this.currentDirection = direction;
 
@@ -196,6 +198,7 @@ class Player {
             this.move(this.currentDirection);
         }
     }
+
 }
 
 class Collectible {
