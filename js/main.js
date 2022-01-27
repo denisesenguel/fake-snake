@@ -1,7 +1,12 @@
+const game = new Game;
+
+document.getElementById('try-again').addEventListener('click', () => game.makeVisible("start-screen"));
+
 for (let i = 0; i < 3; i++) {
 
     document.getElementById(`btn-level-${i}`).addEventListener('click', () => {
         
+        // put level number - speed mapping inside game?
         switch (i) {
             case 0: 
                 speed = 150;
@@ -17,18 +22,13 @@ for (let i = 0; i < 3; i++) {
         let count = 3;
         const timer = setInterval(() => {
 
-            document.querySelector(".start-and-end").style.display = 'none';
-            document.getElementById("countdown").style.display = 'flex';
+            game.makeVisible("countdown");
 
             if (count > 0) {
                 document.querySelector("#countdown>h1").innerText = count;
                 count--;
             } else {
                 clearInterval(timer);
-
-                document.getElementById("countdown").style.display = 'none';
-
-                const game = new Game;
                 game.start(speed);
             }
         }, 500);

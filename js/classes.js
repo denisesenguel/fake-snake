@@ -1,20 +1,16 @@
 class Game {
 
-    constructor() {
-        this.score = 0;
-        this.controller = new AbortController;
-    }
-
     start(speed) {
 
-        document.querySelector(".container").style.display = "flex"; 
+        this.score = 0;
+        this.controller = new AbortController;
+        
+        this.makeVisible("game-container");
 
         this.addPlayer(speed);
-        
         this.addNewCollectible();
 
         this.movePlayerContinuously(this.player.currentDirection);
-
         this.addEventListeners();
     }
 
@@ -50,12 +46,15 @@ class Game {
 
     addNewCollectible() {
 
-        if (this.collectible) {
+        try {
             document.getElementById('board').removeChild(this.collectible.htmlElm); 
+        } catch (err) {
+        } finally {
+            this.collectible = new Collectible(this.player.snake);
+            this.collectible.htmlElm = this.addNewElm(this.collectible.size, this.collectible.position);
+            this.collectible.htmlElm.className = "collectible";
         }
-        this.collectible = new Collectible(this.player.snake);
-        this.collectible.htmlElm = this.addNewElm(this.collectible.size, this.collectible.position);
-        this.collectible.htmlElm.className = "collectible";
+        
     }
     
     isGameOver() {
@@ -116,19 +115,27 @@ class Game {
 
     stop() {
 
-        clearInterval(this.player.intervalID);
-
         document.getElementById("board").innerHTML = "";
         document.getElementById("score-box").innerText = "Score: 0";
-        document.querySelector(".container").style.display = "none";
-        
-        document.querySelector(".start-and-end").style.display = "flex";
 
-        document.querySelector(".start-and-end h1").innerText = "Game Over!";
-        document.querySelector(".start-and-end h3").innerText = "Play Again? Pick a Level:"
-        document.getElementById("end-score").innerText = `Your Score: ${this.score}`;
+        this.makeVisible("game-over");
+        document.querySelector("#game-over>h2").innerText = `Your Score: ${this.score}`;
         
+        clearInterval(this.player.intervalID);
         this.controller.abort();
+    }
+
+    makeVisible(divID) {
+
+        // is there a function for getting ids of all direct children divs of body tag?
+        const allDivs = ["start-screen", "countdown", "game-over", "game-container"];
+
+        document.getElementById(divID).style.display = "flex";
+        allDivs.forEach((div) => {
+            if (div != divID) {
+                document.getElementById(div).style.display = "none";
+            }
+        });
     }
 }
 
