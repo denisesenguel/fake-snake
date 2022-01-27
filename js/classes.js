@@ -58,9 +58,13 @@ class Game {
     }
     
     isGameOver() {
-        const isHittingBorder = this.player.snake[0].position.x > 100 - this.player.size ||  this.player.snake[0].position.y > 100 - this.player.size ||  this.player.snake[0].position.x < 0 ||  this.player.snake[0].position.y < 0;
-        const isHittingItself = this.player.snake.map((el, i, arr) => (i != 0 && el.position === arr[0].position)).some(el => el == true);
-        return (isHittingBorder || isHittingItself) ? true : false;
+        if (this.player.snake[0].position.x > 100 - this.player.size || 
+            this.player.snake[0].position.y > 100 - this.player.size || 
+            this.player.snake[0].position.x < 0 || 
+            this.player.snake[0].position.y < 0) {
+            
+            return true;
+        }
     }
         
     hasCollected() {
