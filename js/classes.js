@@ -164,13 +164,13 @@ class Player {
                         htmlElm: null,
                         position: {
                             x: headPosition.x,
-                            y: headPosition.y + (i * this.size)
+                            y: headPosition.y - (i * this.size)
                         }
                     }
                 );
             }
         };
-        this.generateSnake(3, {x: 50, y: 10});
+        this.generateSnake(3, {x: 50, y: 20});
         this.currentDirection = 'down';
         this.lastTailPosition = this.snake[this.snake.length - 1].position;
         this.intervalID = null;
