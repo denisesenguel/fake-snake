@@ -7,7 +7,6 @@ class Game {
 
     start(speed) {
 
-        document.querySelector(".start-and-end").style.display = "none";
         document.querySelector(".container").style.display = "flex"; 
 
         this.addPlayer(speed);
@@ -229,9 +228,26 @@ for (let i = 0; i < 3; i++) {
                 break;
             case 2:
                 speed = 50;
-                break
+                break;
         }
-        const game = new Game();
-        game.start(speed);
+
+        let count = 3;
+        const timer = setInterval(() => {
+
+            document.querySelector(".start-and-end").style.display = 'none';
+            document.getElementById("countdown").style.display = 'flex';
+
+            if (count > 0) {
+                document.querySelector("#countdown>h1").innerText = count;
+                count--;
+            } else {
+                clearInterval(timer);
+
+                document.getElementById("countdown").style.display = 'none';
+
+                game = new Game;
+                game.start(speed);
+            }
+        }, 500);
     });
 }

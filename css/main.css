@@ -48,10 +48,6 @@ body {
     height: 100vh;
 }
 
-#game-over {
-    display: none;
-}
-
 .levels {
     display: flex;
     justify-content: center;
@@ -64,6 +60,16 @@ body {
     text-decoration: none;
     font-family: inherit;
     font-weight: inherit;
+}
+
+#countdown {
+    font-size: 5em;
+    font-weight: bold;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    background-color: rosybrown;
+    height: 100vh;
 }
 
 @media (orientation: landscape) {
