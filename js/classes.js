@@ -244,11 +244,10 @@ class Collectible {
             x = Math.floor(r1 * (100 / this.size)) * this.size;
             y = Math.floor(r2 * (100 / this.size)) * this.size;
 
-            for (let i = 0; i < excludePos.length; i++) {
-                if (excludePos[i].x == x && excludePos[i].y == y) {
-                    this.randomPosition(excludePos);
-                } 
-            }
+            while (excludePos.some(el => el.position.x == x && el.position.y == y)) {
+                (x < 100) ? x += this.size : x -= this.size;
+                (y < 100) ? y += this.size : y -= this.size;
+            } 
             return {x: x, y: y};
         };
         this.position = this.randomPosition(excludePos);
