@@ -70,12 +70,14 @@ body {
 }
 
 .btn-level {
-    padding: 10px;
+    padding: 20px;
     margin: 20px;
     text-decoration: none;
     font-family: inherit;
     font-weight: inherit;
-    background-color: #686868;
+    background-color: black;
+    color: #1FC742;
+    border: 2px solid #1FC742;
 }
 
 #countdown {
