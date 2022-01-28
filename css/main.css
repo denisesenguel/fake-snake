@@ -35,13 +35,15 @@ body {
 .player {
     background-color: #1FC742;
     position: absolute;
-    border-radius: 10%;
+    border-radius: 20%;
+    margin: 1px;
 }
 
 .collectible {
-    background-color: #1FC742;
-    position: absolute;
-    border-radius: 10%;
+    background-image: url("../img/red-pixel-heart.png");
+    background-repeat: no-repeat;
+    background-size: 100%;
+    position: absolute; 
 }
 
 #score-box {
