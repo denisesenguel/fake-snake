@@ -11,7 +11,7 @@ body {
     padding: 0;
     font-family: aGoblinAppears;
     font-weight:lighter;
-    font-size: 20px;
+    font-size: 2vmin;
     letter-spacing: 0.5em;
     background-color: black;
     color: #1FC742;
@@ -25,10 +25,19 @@ body {
     height: 100vh;
 }
 
+#above-board {
+    width: 87vmin; 
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 5px;
+}
+
 #board {
     border: 5px solid #1FC742;
-    width: 80vw;
-    height: 80vw;
+    width: 87vmin;
+    height: 87vmin;
     position: relative;
 }
 
@@ -44,13 +53,7 @@ body {
     background-repeat: no-repeat;
     background-size: 100%;
     position: absolute; 
-}
-
-#score-box {
-    margin: 50px;
-    width: 80vw;
-    text-align: center;
-}
+} 
 
 .start-and-end {
     display: flex;
@@ -85,19 +88,13 @@ body {
     display: none;
 }
 
-@media (orientation: landscape) {
-    
-    .container {
-        flex-direction: row;
-    }
+/* @media (orientation: landscape) {
 
+    #above-board {
+        width: 90vh;
+    }
     #board {
-        width: 80vh;
-        height: 80vh;
+        width: 90vh;
+        height: 90vh;
     }
-
-    #score-box {
-        width: 15vw;
-        text-align: left;
-    }
-}
+}*/

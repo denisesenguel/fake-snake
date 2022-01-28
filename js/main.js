@@ -6,18 +6,23 @@ for (let i = 0; i < 3; i++) {
 
     document.getElementById(`btn-level-${i}`).addEventListener('click', () => {
         
+        let speed, level;
         // put level number - speed mapping inside game?
         switch (i) {
             case 0: 
+                level = "Easy";
                 speed = 150;
                 break;
-            case 1: 
+                case 1: 
+                level = "Medium";
                 speed = 100;
                 break;
-            case 2:
+                case 2:
+                level = "Hard";
                 speed = 50;
                 break;
         }
+        document.getElementById("level-box").innerText = `Level: ${level}`;
 
         let count = 3;
         const timer = setInterval(() => {
