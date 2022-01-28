@@ -1,9 +1,20 @@
+/* definition */
+@font-face {
+    font-family: aGoblinAppears;
+    src: url('../fonts/a_goblin_appears-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+  
 body {
     margin: 0;
     padding: 0;
-    font-family: 'Courier New', Courier, monospace;
-    font-weight: bold;
-    font-size: 20px;
+    font-family: aGoblinAppears;
+    font-weight:lighter;
+    font-size: 2vmin;
+    letter-spacing: 0.5em;
+    background-color: black;
+    color: #1FC742;
 }
 
 .container {
@@ -14,34 +25,38 @@ body {
     height: 100vh;
 }
 
+#above-board {
+    width: 87vmin; 
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 5px;
+}
+
 #board {
-    border: 5px solid black;
-    width: 80vw;
-    height: 80vw;
+    border: 5px solid #1FC742;
+    width: 87vmin;
+    height: 87vmin;
     position: relative;
 }
 
 .player {
-    background-color: blue;
+    background-color: #1FC742;
     position: absolute;
-    border-radius: 10%;
+    border-radius: 20%;
+    margin: 1px;
 }
 
 .collectible {
-    background-color: chocolate;
-    position: absolute;
-    border-radius: 10%;
-}
-
-#score-box {
-    margin: 50px;
-    width: 80vw;
-    text-align: center;
-}
+    background-image: url("../img/red-pixel-heart.png");
+    background-repeat: no-repeat;
+    background-size: 100%;
+    position: absolute; 
+} 
 
 .start-and-end {
     display: flex;
-    background-color: rosybrown;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -55,11 +70,14 @@ body {
 }
 
 .btn-level {
-    padding: 10px;
+    padding: 20px;
     margin: 20px;
     text-decoration: none;
     font-family: inherit;
     font-weight: inherit;
+    background-color: black;
+    color: #1FC742;
+    border: 2px solid #1FC742;
 }
 
 #countdown {
@@ -68,18 +86,17 @@ body {
     display: none;
 }
 
-@media (orientation: landscape) {
-    .container {
-        flex-direction: row;
-    }
-
-    #board {
-        width: 80vh;
-        height: 80vh;
-    }
-
-    #score-box {
-        width: 15vw;
-        text-align: left;
-    }
+#game-over {
+    display: none;
 }
+
+/* @media (orientation: landscape) {
+
+    #above-board {
+        width: 90vh;
+    }
+    #board {
+        width: 90vh;
+        height: 90vh;
+    }
+}*/

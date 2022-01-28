@@ -1,5 +1,12 @@
 class Game {
 
+    constructor() {
+        this.startSound = new Audio("../sound/start-sound.wav");
+        this.countDownSound = new Audio("../sound/countdown.wav");
+        this.collectSound = new Audio("../sound/coin-win.wav");
+        this.gameOverSound = new Audio("../sound/game-over.mp3");
+    }
+
     start(speed) {
 
         this.score = 0;
@@ -58,13 +65,15 @@ class Game {
     }
     
     isGameOver() {
-        if (this.player.snake[0].position.x > 100 - this.player.size || 
+
+        const isHittingBorder = (
+            this.player.snake[0].position.x > 100 - this.player.size || 
             this.player.snake[0].position.y > 100 - this.player.size || 
-            this.player.snake[0].position.x < 0 || 
-            this.player.snake[0].position.y < 0) {
-            
-            return true;
-        }
+            this.player.snake[0].position.x < 0 || this.player.snake[0].position.y < 0
+            );
+        const isHittingItself = this.player.snake.filter((el, i, arr) => i != 0 && el.position.x == arr[0].position.x && el.position.y == arr[0].position.y).length > 0;
+        
+        return (isHittingBorder ||isHittingItself) ? true : false;
     }
         
     hasCollected() {
@@ -85,10 +94,14 @@ class Game {
             this.player.move(direction);
             
             if (this.isGameOver()) {
+                this.gameOverSound.play();
                 this.stop();
             }
 
             if (this.hasCollected()) {
+                this.collectSound.load();
+                this.collectSound.play();
+                this.growSnake();
                 this.addNewCollectible();
                 this.addToScore();
             }
@@ -125,6 +138,13 @@ class Game {
         this.controller.abort();
     }
 
+    growSnake() {
+        this.player.grow();
+        const addedElm = this.player.snake[this.player.snake.length - 1];
+        addedElm.htmlElm = this.addNewElm(this.player.size, addedElm.position);
+        addedElm.htmlElm.className = "player";
+    }
+
     makeVisible(divID) {
 
         // is there a function for getting ids of all direct children divs of body tag?
@@ -156,15 +176,15 @@ class Player {
                         htmlElm: null,
                         position: {
                             x: headPosition.x,
-                            y: headPosition.y + (i * this.size)
+                            y: headPosition.y - (i * this.size)
                         }
                     }
                 );
             }
         };
-        this.generateSnake(2, {x: 50, y: 10});
-        
+        this.generateSnake(3, {x: 50, y: 20});
         this.currentDirection = 'down';
+        this.lastTailPosition = this.snake[this.snake.length - 1].position;
         this.intervalID = null;
     }
 
@@ -173,7 +193,10 @@ class Player {
         if (!((direction == 'right' && this.currentDirection == 'left') || (direction == 'left' && this.currentDirection == 'right') ||
             (direction == 'up' && this.currentDirection == 'down') || (direction == 'down' && this.currentDirection == 'up'))) {
 
-            this.snake[1].position = { ...this.snake[0].position };
+            this.lastTailPosition = this.snake[this.snake.length - 1].position;
+            for (let i = this.snake.length - 1; i > 0; i--) {
+                this.snake[i].position = { ...this.snake[i - 1].position };
+            }
             switch (direction) {
                 case 'right':
                     this.snake[0].position.x += this.speed.stepSize;
@@ -188,7 +211,7 @@ class Player {
                     this.snake[0].position.y += this.speed.stepSize;
                     break;
                 default:
-                    throw new Error('Please specify direction. Allowed values: "left/Left", "right/Right", "up/Up", "down/Down".');
+                    throw new Error('Please specify direction. Allowed values: "left", "right", "up", "down".');
             }
             this.currentDirection = direction;
 
@@ -196,6 +219,16 @@ class Player {
             this.move(this.currentDirection);
         }
     }
+
+    grow() {
+        this.snake.push(
+            {
+                htmlElm: undefined,
+                position: this.lastTailPosition
+            }
+        );
+    }
+
 }
 
 class Collectible {
@@ -211,11 +244,10 @@ class Collectible {
             x = Math.floor(r1 * (100 / this.size)) * this.size;
             y = Math.floor(r2 * (100 / this.size)) * this.size;
 
-            for (let i = 0; i < excludePos.length; i++) {
-                if (excludePos[i].x == x && excludePos[i].y == y) {
-                    this.randomPosition(excludePos);
-                } 
-            }
+            while (excludePos.some(el => el.position.x == x && el.position.y == y)) {
+                (x < 100) ? x += this.size : x -= this.size;
+                (y < 100) ? y += this.size : y -= this.size;
+            } 
             return {x: x, y: y};
         };
         this.position = this.randomPosition(excludePos);
