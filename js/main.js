@@ -1,6 +1,10 @@
 const game = new Game;
+game.startSound.play();
 
-document.getElementById('try-again').addEventListener('click', () => game.makeVisible("start-screen"));
+document.getElementById('try-again').addEventListener('click', () => {
+    game.startSound.play();
+    game.makeVisible("start-screen");
+});
 
 for (let i = 0; i < 3; i++) {
 
@@ -28,6 +32,8 @@ for (let i = 0; i < 3; i++) {
         const timer = setInterval(() => {
 
             game.makeVisible("countdown");
+            game.countDownSound.load();
+            game.countDownSound.play();
 
             if (count > 0) {
                 document.querySelector("#countdown>h1").innerText = count;

@@ -1,5 +1,12 @@
 class Game {
 
+    constructor() {
+        this.startSound = new Audio("../sound/start-sound.wav");
+        this.countDownSound = new Audio("../sound/countdown.wav");
+        this.collectSound = new Audio("../sound/coin-win.wav");
+        this.gameOverSound = new Audio("../sound/game-over.mp3");
+    }
+
     start(speed) {
 
         this.score = 0;
@@ -65,6 +72,7 @@ class Game {
             this.player.snake[0].position.x < 0 || this.player.snake[0].position.y < 0
             );
         const isHittingItself = this.player.snake.filter((el, i, arr) => i != 0 && el.position.x == arr[0].position.x && el.position.y == arr[0].position.y).length > 0;
+        
         return (isHittingBorder ||isHittingItself) ? true : false;
     }
         
@@ -86,10 +94,13 @@ class Game {
             this.player.move(direction);
             
             if (this.isGameOver()) {
+                this.gameOverSound.play();
                 this.stop();
             }
 
             if (this.hasCollected()) {
+                this.collectSound.load();
+                this.collectSound.play();
                 this.growSnake();
                 this.addNewCollectible();
                 this.addToScore();
